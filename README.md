@@ -6,7 +6,7 @@ class, "Getting and Cleaning Data".
 The Course Project consists of the following files found in this repository:
 
 - README.md - this file
-- CodeBook.md - A detailed description of the solution.
+- CodeBook.md - A description of the contents of the tidy data set.
 - run_analysis.R - The required R code needed to satisfy the assignment.
 
 The Assignment
@@ -95,13 +95,15 @@ not loaded before actually installing the package.
 
 ### getFileName Function
 The names of all the data files follow a consistent pattern that we can
-exploit to easily generate the appropriate file name based on just a 
-prefix (X, Y, or Subject) and a set type (test or train).
+exploit to easily generate the appropriate file name needed for data extract
+based on just a prefix (X, Y, or Subject) and a set type (test or train).
 
 ```
 getFileName <- function(prefix, setName)
 {
-        result <- paste("UCI HAR Dataset/", setName ,"/" , prefix, "_" , setName , ".txt", sep="")        
+        result <- paste("UCI HAR Dataset/", setName ,"/" 
+                        , prefix, "_" , setName 
+                        , ".txt", sep="")        
         return(result)
 }
 ```
@@ -222,7 +224,8 @@ features <- read.table("UCI HAR Dataset/features.txt")
 ```
 
 We only need the second column, which contains the names of the measurement columns.  
-This data is stored in the measurement_colnames variable.
+This data is stored in the measurement_colnames variable which is used later in 
+the extractData function.
 
 ```
 measurement_colnames <- features[,2]
@@ -251,7 +254,8 @@ Now that we have two tidy data sets, it is easy to combine them using dplyr:
 combined_tbl <- bind_rows(test_tbl, train_tbl)
 ```
 Next we will trim the number of columns down to only include the subject ID, 
-the activity name, and any measures involving standard deviations or means.
+the activity name, and any measures involving standard deviation or mean
+calculations.
 
 **Note** There are a variety of measures with mean as part of the measure name
 such as angle(tBodyAccMean,gravity).  For this assignment I have excluded those
